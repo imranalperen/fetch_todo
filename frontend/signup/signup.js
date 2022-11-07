@@ -48,9 +48,11 @@ function post_signup_form() {
     .then((response_value) => {
         if(response_value["response"] === "success"){
             swal.fire({
+                position: "top-end",
+                icon: "success",
                 title: "Succes",
-                text: "Your accaunt create successfully...",
-                icon: "success"
+                showConfirmButton: false,
+                timer: 1100
             })
             .then((redirect_login) => {
                 if (redirect_login){

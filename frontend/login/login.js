@@ -22,6 +22,24 @@ function check_login_form() {
     })
     .then((response) => response.json())
     .then((response_value) => {
-        console.log(response_value)
+        if(response_value["response"] === "success"){
+            swal.fire({
+                position: "bottom-end",
+                icon: "success",
+                title: "Success",
+                text: "Successfuly logged in",
+                showConfirmButton: false,
+                timer: 1100
+            })
+        }
+        else{
+            swal.fire({
+                position: "bottom-end",
+                icon: "error",
+                title: "Wrong password or email.",
+                showConfirmButton: false,
+                timer: 1000
+            })
+        }
     })
 }

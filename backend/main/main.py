@@ -22,13 +22,13 @@ def signup():
 
 @main.route("login", methods=["POST"])
 def login():
-    # login_form = request.json
-    # email = login_form["email"]
-    # password = login_form["password"]
-    # if db_login_control(email, password):
-    #     return "ok"
-    # return "patlak"
-    pass
+    login_form = request.json
+    email = login_form["email"]
+    password = login_form["password"]
+    if UserCore().login(email, password):
+        return jsonify({"response": "success"})
+    
+    return jsonify({"response": "fail"}), 401
 
 
 @main.route("index", methods=["POST"])

@@ -1,10 +1,4 @@
-from backend.db import session
-from backend.models import Users
-from flask import g
 import hashlib
-import uuid
-import datetime
-from datetime import date, timedelta, datetime
 
 
 def get_access_token(mail):
