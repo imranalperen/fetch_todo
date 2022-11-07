@@ -4,3 +4,4 @@ venv/
 .vscode
 
 notes.md
+localsettings.py
