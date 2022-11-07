@@ -21,7 +21,7 @@ class Todos(Base):
     todo_body = Column(String(250))
     user_id = Column(Integer, ForeignKey("users.id"))
     time_created = Column(DateTime(timezone=True), server_default=func.now())
-    time_updated = Column(DateTime(timezone=True), onupdate=func.now())
+    time_updated = Column(DateTime(timezone=True))
 
 
 Base.metadata.create_all(engine)
