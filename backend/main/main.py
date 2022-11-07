@@ -4,31 +4,32 @@ from flask import(
     jsonify
 )
 from backend.main.decorators import login_required
-from backend.main.utils import (
-    db_email_control,
-    db_insert_user,
-)
+from backend.main.crud.users_crud import UserCore
 
 main = Blueprint("mian", __name__, url_prefix="/api")
 
 @main.route("signup", methods=["POST"])
 def signup():
-    signup_form = request.json  #{'email': 'qwe', 'password': 'qwe', 'verify_password': 'qwe'}
+    signup_form = request.json
     if signup_form["password"] == signup_form["verify_password"]:
         email = signup_form["email"]
         password = signup_form["password"]
-        if not db_email_control(email):
-            db_insert_user(email, password)
+        if UserCore().register(email, password):
             return jsonify({"response": "success"})
-    
+        
     return jsonify({"response": "Error"}), 401
 
 
 @main.route("login", methods=["POST"])
 def login():
-    login_form = request.json
-    email = login_form["email"]
-    password = login_form["password"]
+    # login_form = request.json
+    # email = login_form["email"]
+    # password = login_form["password"]
+    # if db_login_control(email, password):
+    #     return "ok"
+    # return "patlak"
+    pass
+
 
 @main.route("index", methods=["POST"])
 def index():
