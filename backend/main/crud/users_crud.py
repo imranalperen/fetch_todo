@@ -28,13 +28,6 @@ class UserCore:
         if user:
             return True
         return False
-    
-
-    def get_access_token(self, form_email):
-        user = session.query(Users).filter(Users.email == f"{form_email}").first()
-        if user.access_token:
-            return True
-        return False
 
 
     def create_access_token(self):
@@ -59,12 +52,15 @@ class UserCore:
                 })
         session.commit()
     
-
-    def get_access_token_expire_date(self, form_email):
-        expire_date = session.query(Users).filter(Users.email == f"{form_email}").first()
-        return expire_date.access_token_expire_date
+    def get_acctoken_expdate_by_mail(self, form_email):
+        user = session.query(Users).filter(Users.email == f"{form_email}").first()
+        return user.access_token_expire_date
 
     
-    def select_access_token(self, form_email):
+    def get_acctoken_by_mail(self, form_email):
         user = session.query(Users).filter(Users.email == f"{form_email}").first()
         return user.access_token
+
+    def get_acctoken_expdate_by_acctoken(self, access_token):
+        user = session.query(Users).filter(Users.access_token == f"{access_token}").first()
+        return user.access_token_expire_date

@@ -1,3 +1,7 @@
 .set-margin{
     margin-top: 200px;
 }
+
+.swal-wide{
+    width:650px !important;
+}

@@ -46,7 +46,7 @@ function post_signup_form() {
     })
     .then((response) => response.json())
     .then((response_value) => {
-        if(response_value["response"] === "success"){
+        if(response_value["response"] === true){
             swal.fire({
                 position: "top-end",
                 icon: "success",

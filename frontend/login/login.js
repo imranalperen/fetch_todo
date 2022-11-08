@@ -22,15 +22,22 @@ function check_login_form() {
     })
     .then((response) => response.json())
     .then((response_value) => {
-        if(response_value["response"] === "success"){
-            swal.fire({
-                position: "bottom-end",
-                icon: "success",
-                title: "Success",
-                text: "Successfuly logged in",
+        if(response_value["response"] === true){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
                 showConfirmButton: false,
-                timer: 1100
+                timer: 1000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer)
+                  toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
             })
+            Toast.fire({
+                icon: 'success',
+                title: 'Signed in successfully'
+                })
             const access_token = response_value["access_token"]
             console.log(access_token)
             window.localStorage.clear("access_token")
