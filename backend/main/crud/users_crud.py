@@ -5,6 +5,7 @@ from sqlalchemy import and_
 import uuid
 from datetime import date, timedelta
 
+
 class UserCore:
     def register(self, form_email, form_password):
         user = session.query(Users).filter(Users.email == f"{form_email}").first()
@@ -16,6 +17,7 @@ class UserCore:
             session.add(user)
             session.commit()
             return True
+
         return False #user already registered
     
 
@@ -27,6 +29,7 @@ class UserCore:
                             .first()
         if user:
             return True
+
         return False
 
 
@@ -52,6 +55,7 @@ class UserCore:
                 })
         session.commit()
     
+
     def get_acctoken_expdate_by_mail(self, form_email):
         user = session.query(Users).filter(Users.email == f"{form_email}").first()
         return user.access_token_expire_date
@@ -60,6 +64,7 @@ class UserCore:
     def get_acctoken_by_mail(self, form_email):
         user = session.query(Users).filter(Users.email == f"{form_email}").first()
         return user.access_token
+
 
     def get_acctoken_expdate_by_acctoken(self, access_token):
         user = session.query(Users).filter(Users.access_token == f"{access_token}").first()

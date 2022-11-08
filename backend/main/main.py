@@ -2,14 +2,15 @@ from flask import(
     Blueprint,
     request,
     jsonify,
-    g
 )
 from backend.main.decorators import login_required
 from backend.main.crud.users_crud import UserCore
 from backend.main.crud.todos_crud import TodoCore
 import datetime
 
+
 main = Blueprint("mian", __name__, url_prefix="/api")
+
 
 @main.route("signup", methods=["POST"])
 def signup():
@@ -33,6 +34,7 @@ def login():
             token = UserCore().create_access_token()
             UserCore().update_access_token(email, token)
         access_token = UserCore().get_acctoken_by_mail(email)
+
         return jsonify({
             "response": True,
             "access_token": access_token
@@ -47,6 +49,7 @@ def index_add_todo():
     todo_body = request.json.get("todo")
     access_token = request.headers.get("Access-Token")
     TodoCore().add_todo(access_token, todo_body)
+
     return jsonify({"response": True})
 
 
@@ -57,6 +60,7 @@ def index_list_todo():
     todos = TodoCore().get_users_todos_by_acctoken(access_token)
     if todos:
         return jsonify({"response": True, "todo_list": todos})
+
     return jsonify({"response": False})
 
 
@@ -66,6 +70,7 @@ def done_todo():
     access_token = request.headers.get("Access-Token")
     todo_body = request.json.get("todo_body")
     TodoCore().delete_todo_by_token(access_token, todo_body)
+
     return jsonify({"response": True})
 
 
@@ -76,4 +81,5 @@ def update_todo():
     update_body = request.json.get("update_body")
     old_body = request.json.get("old_body")
     TodoCore().update_todo(access_token, update_body, old_body)
+
     return jsonify({"response": True})

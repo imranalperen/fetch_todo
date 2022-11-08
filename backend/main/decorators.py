@@ -11,5 +11,7 @@ def login_required(f):
         token_expire_date = UserCore().get_acctoken_expdate_by_acctoken(access_token)
         if not access_token or token_expire_date <= datetime.datetime.now():
             return redirect(url_for("http://127.0.0.1:5500/frontend/login/login.html"))
+
         return f(*args, **kwargs)
+        
     return decorated_function
