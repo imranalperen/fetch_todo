@@ -45,8 +45,7 @@ def login():
 @login_required
 def index_add_todo():
     todo_body = request.json.get("todo")
-    access_token = request.headers.get("Access-Token")
-    TodoCore().add_todo(access_token, todo_body)
+    TodoCore().add_todo(g.user.id, todo_body)
 
     return jsonify({"response": True})
 
@@ -54,7 +53,6 @@ def index_add_todo():
 @main.route("index/list_todo", methods=["POST"])
 @login_required
 def index_list_todo():
-    print(g.user.id)
     todos = TodoCore().get_todos_by_user_id(g.user.id)
     if todos:
         return jsonify({"response": True, "todo_list": todos})
@@ -74,9 +72,8 @@ def done_todo():
 @main.route("index/update_todo", methods=["PATCH"])
 @login_required
 def update_todo():
-    access_token = request.headers.get("Access-Token")
     update_body = request.json.get("update_body")
     todo_id = request.json.get("todo_id")
-    TodoCore().update_user_todo(access_token, update_body, todo_id)
+    TodoCore().update_user_todo(g.user.id, update_body, todo_id)
 
     return jsonify({"response": True})

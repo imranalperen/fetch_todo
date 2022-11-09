@@ -5,9 +5,8 @@ import datetime
 
 
 class TodoCore:
-    def add_todo(self, token, todo_body):
-        user = session.query(Users).filter(Users.access_token == f"{token}").first()
-        todo = Todos(todo_body = todo_body, user_id = user.id)
+    def add_todo(self, user_id, todo_body):
+        todo = Todos(todo_body = todo_body, user_id = user_id)
         session.add(todo)
         session.commit()
 
@@ -31,12 +30,11 @@ class TodoCore:
         session.commit()
 
     
-    def update_user_todo(self, token, update_body, todo_id):
-        user = session.query(Users).filter(Users.access_token == f"{token}").first()
+    def update_user_todo(self, user_id, update_body, todo_id):
         (
             session.query(Todos)
             .filter(and_(
-                Todos.user_id == user.id,
+                Todos.user_id == user_id,
                 Todos.id == todo_id
             ))
             .update({
