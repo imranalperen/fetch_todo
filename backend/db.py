@@ -36,5 +36,6 @@ def get_session():
     session = sessionmaker(bind=engine)()
     return session
 
+
 session = get_session()
 Base = declarative_base()

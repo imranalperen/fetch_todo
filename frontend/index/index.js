@@ -2,11 +2,13 @@ const API_URL = "http://localhost:5000/api"
 const access_token = window.localStorage.getItem("access_token")
 
 
+document.getElementById("switch").addEventListener("click", list_todos)
 document.getElementById("btn_add_todo").addEventListener("click", add_todo_db)
 document.getElementById("btn_logout").addEventListener("click", function () {
     window.localStorage.clear()
     window.location.replace("http://127.0.0.1:5500/frontend/login/login.html")
 })
+
 
 list_todos()
 
@@ -31,8 +33,9 @@ function list_todos() {
 }
 
 
-function refresh_todos(todos) {
+function refresh_todos(todos, switch_value) {
     document.getElementById("todo_table_body").innerHTML = ""
+    switch_value = document.getElementById("switch").checked
     for (let i = 0; i < todos.length; i++){
         const table = document.getElementById("todo_table_body")
         const tr_element = document.createElement("tr")
@@ -59,13 +62,6 @@ function refresh_todos(todos) {
         done_button.innerHTML = "Done"
         update_button.innerHTML = "Update"
 
-        //show todolar aktif ise aç kapa
-        if(todos[i]["done"]){
-            done_button.disabled = true
-            update_button.disabled = true
-            td_text_element.style.color = "#D8D9CF"
-        }
-
         td_done_element.appendChild(done_button)
         td_update_element.appendChild(update_button)
 
@@ -75,6 +71,16 @@ function refresh_todos(todos) {
         tr_element.appendChild(td_hidden)
 
         table.appendChild(tr_element)
+
+        if(todos[i]["done"]){
+            done_button.disabled = true
+            update_button.disabled = true
+            td_text_element.style.color = "#D8D9CF"
+            if(switch_value){
+                tr_element.style.display = "none"
+            }
+        }
+
         document.getElementById("todo_body").value = ""
     }
 }
@@ -122,7 +128,7 @@ function done_todo() {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Done it'
+        confirmButtonText: 'Done'
       }).then((result) => {
         if (result.isConfirmed) {
             done_todo_endpoint(todo_id)

@@ -31,8 +31,6 @@ class UserCore:
         )
         return user
 
-
-
     
     def update_access_token(self, form_email, token):
         print(token["token"])
