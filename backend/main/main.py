@@ -2,11 +2,12 @@ from flask import(
     Blueprint,
     request,
     jsonify,
+    g,
 )
 from backend.main.decorators import login_required
 from backend.main.crud.users_crud import UserCore
 from backend.main.crud.todos_crud import TodoCore
-import datetime
+from backend.main.utils import create_access_token
 
 
 main = Blueprint("mian", __name__, url_prefix="/api")
@@ -29,11 +30,8 @@ def login():
     email = request.json.get("email")
     password = request.json.get("password")
     if UserCore().login(email, password):
-        token_expire_date = UserCore().get_acctoken_expdate_by_mail(email)
-        if not token_expire_date or token_expire_date <= datetime.datetime.now():
-            token = UserCore().create_access_token()
-            UserCore().update_access_token(email, token)
-        access_token = UserCore().get_acctoken_by_mail(email)
+        access_token = create_access_token()
+        UserCore().update_access_token(email, access_token)
 
         return jsonify({
             "response": True,
@@ -56,8 +54,8 @@ def index_add_todo():
 @main.route("index/list_todo", methods=["POST"])
 @login_required
 def index_list_todo():
-    access_token = request.headers.get("Access-Token")
-    todos = TodoCore().get_users_todos_by_acctoken(access_token)
+    print(g.user.id)
+    todos = TodoCore().get_todos_by_user_id(g.user.id)
     if todos:
         return jsonify({"response": True, "todo_list": todos})
 
@@ -67,9 +65,8 @@ def index_list_todo():
 @main.route("index/done_todo", methods=["DELETE"])
 @login_required
 def done_todo():
-    access_token = request.headers.get("Access-Token")
-    todo_body = request.json.get("todo_body")
-    TodoCore().delete_todo_by_token(access_token, todo_body)
+    todo_id = request.json.get("todo_id")
+    TodoCore().done_user_todo(todo_id)
 
     return jsonify({"response": True})
 
@@ -79,7 +76,7 @@ def done_todo():
 def update_todo():
     access_token = request.headers.get("Access-Token")
     update_body = request.json.get("update_body")
-    old_body = request.json.get("old_body")
-    TodoCore().update_todo(access_token, update_body, old_body)
+    todo_id = request.json.get("todo_id")
+    TodoCore().update_user_todo(access_token, update_body, todo_id)
 
     return jsonify({"response": True})

@@ -39,6 +39,7 @@ function refresh_todos(todos) {
         const td_text_element = document.createElement("td")
         const td_done_element = document.createElement("td")
         const td_update_element = document.createElement("td")
+
         const done_button = document.createElement("button")
         done_button.className = "btn btn-success"
         done_button.id = "btn_done"
@@ -49,9 +50,21 @@ function refresh_todos(todos) {
         update_button.id = "btn_update"
         update_button.addEventListener("click", update_todo)
 
-        td_text_element.innerHTML = todos[i]
+        const td_hidden = document.createElement("td")
+        td_hidden.id = "todo_id"
+        td_hidden.style.display = "none"
+        td_hidden.innerHTML = todos[i]["id"]
+
+        td_text_element.innerHTML = todos[i]["todo_body"]
         done_button.innerHTML = "Done"
         update_button.innerHTML = "Update"
+
+        //show todolar aktif ise aç kapa
+        if(todos[i]["done"]){
+            done_button.disabled = true
+            update_button.disabled = true
+            td_text_element.style.color = "#D8D9CF"
+        }
 
         td_done_element.appendChild(done_button)
         td_update_element.appendChild(update_button)
@@ -59,9 +72,9 @@ function refresh_todos(todos) {
         tr_element.appendChild(td_text_element)
         tr_element.appendChild(td_done_element)
         tr_element.appendChild(td_update_element)
-        
+        tr_element.appendChild(td_hidden)
+
         table.appendChild(tr_element)
-        
         document.getElementById("todo_body").value = ""
     }
 }
@@ -101,7 +114,7 @@ async function add_todo_db() {
 
 
 function done_todo() {
-    let todo_body = this.parentElement.parentElement.firstChild.innerHTML
+    let todo_id = this.parentElement.parentElement.lastChild.innerHTML
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -112,20 +125,20 @@ function done_todo() {
         confirmButtonText: 'Done it'
       }).then((result) => {
         if (result.isConfirmed) {
-            done_todo_endpoint(todo_body)
+            done_todo_endpoint(todo_id)
         }
       })
 }
 
 
-async function done_todo_endpoint(todo_body) {
+async function done_todo_endpoint(todo_id) {
     await fetch(`${API_URL}/index/done_todo`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
             "Access-Token": access_token
         },
-        body: JSON.stringify({"todo_body": todo_body})
+        body: JSON.stringify({"todo_id": todo_id})
     })
     .then((response) => response.json())
     .then((response_value) => {
@@ -146,6 +159,7 @@ async function done_todo_endpoint(todo_body) {
 
 function update_todo() {
     let old_body = this.parentElement.parentElement.firstChild.innerHTML
+    let todo_id = this.parentElement.parentElement.lastChild.innerHTML
     Swal.fire({
         title: "Update",
         input: "text",
@@ -153,15 +167,15 @@ function update_todo() {
         showCancelButton: true,
         confirmButtonText: "Update",
         showLoaderOnConfirm: true,
-        preConfirm: (update_body) => update_body_endpoint(update_body, old_body)
+        preConfirm: (update_body) => update_body_endpoint(update_body, todo_id)
     })
 }
 
 
-function update_body_endpoint(update_body, old_body) {
+function update_body_endpoint(update_body, todo_id) {
     let request_body = {
         "update_body": update_body,
-        "old_body": old_body
+        "todo_id": todo_id
     }
     fetch(`${API_URL}/index/update_todo`, {
         method: "PATCH",

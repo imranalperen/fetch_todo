@@ -39,9 +39,9 @@ function check_login_form() {
                 title: 'Signed in successfully'
                 })
             const access_token = response_value["access_token"]
-            console.log(access_token)
+            console.log(access_token["token"])
             window.localStorage.clear("access_token")
-            window.localStorage.setItem("access_token", access_token)
+            window.localStorage.setItem("access_token", access_token["token"])
             window.setTimeout(function(){
                 window.location.replace("http://127.0.0.1:5500/frontend/index/index.html")
             }, 1100)

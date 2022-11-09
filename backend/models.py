@@ -1,5 +1,5 @@
 from backend.db import Base, engine
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean
 from sqlalchemy.sql import func
 
 
@@ -10,7 +10,6 @@ class Users(Base):
     email = Column(String(30), nullable=False, unique=True)
     hashed_password = Column(String(100), nullable=False)
     access_token = Column(String(100))
-    access_token_create_date = Column(DateTime)
     access_token_expire_date = Column(DateTime)
 
 
@@ -22,6 +21,7 @@ class Todos(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True))
+    done = Column(Boolean, default=False)
 
 
 Base.metadata.create_all(engine)
