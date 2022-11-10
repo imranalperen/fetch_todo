@@ -2,6 +2,13 @@ const API_URL = "http://localhost:5000/api"
 
 
 document.getElementById("btn_sign_up").addEventListener("click", check_sign_up_form)
+window.addEventListener("keypress", function(event){
+    if(event.key == "Enter"){
+        event.preventDefault()
+        document.getElementById("btn_sign_up").click()
+        this.document.getElementById("email").click()
+    }
+})
 
 
 function check_sign_up_form() {
@@ -18,15 +25,49 @@ function check_sign_up_form() {
     }
     else if(password !== verify_password){
         swal.fire({
-            title: "Verify Passwrod",
-            text: "Password and verify password fileds must be same...",
-            icon: "warning",
+            position: "bottom-end",
+            icon: "error",
+            title: "Password and verify password must match.",
+            showConfirmButton: false,
+            timer: 1500
         })
         document.getElementById("verify_password").value = ""
     }
     else{
-        post_signup_form()
+        if(validate_email(email) === true){
+            post_signup_form()
+        }
+        else{
+            swal.fire({
+                position: "bottom-end",
+                icon: "error",
+                title: "Invalid email adress.",
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
     }
+}
+
+
+function validate_email(emailAddress) {
+    var sQtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]';
+    var sDtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]';
+    var sAtom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+';
+    var sQuotedPair = '\\x5c[\\x00-\\x7f]';
+    var sDomainLiteral = '\\x5b(' + sDtext + '|' + sQuotedPair + ')*\\x5d';
+    var sQuotedString = '\\x22(' + sQtext + '|' + sQuotedPair + ')*\\x22';
+    var sDomain_ref = sAtom;
+    var sSubDomain = '(' + sDomain_ref + '|' + sDomainLiteral + ')';
+    var sWord = '(' + sAtom + '|' + sQuotedString + ')';
+    var sDomain = sSubDomain + '(\\x2e' + sSubDomain + ')*';
+    var sLocalPart = sWord + '(\\x2e' + sWord + ')*';
+    var sAddrSpec = sLocalPart + '\\x40' + sDomain; // complete RFC822 email address spec
+    var sValidEmail = '^' + sAddrSpec + '$'; // as whole string
+  
+    var reValidEmail = new RegExp(sValidEmail);
+  
+    return reValidEmail.test(emailAddress);
 }
 
 

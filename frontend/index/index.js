@@ -8,6 +8,12 @@ document.getElementById("btn_logout").addEventListener("click", function () {
     window.localStorage.clear()
     window.location.replace("http://127.0.0.1:5500/frontend/login/login.html")
 })
+window.addEventListener("keypress", function(e){
+    if(e.key == "Enter"){
+        e.preventDefault()
+        document.getElementById("btn_add_todo").click()
+    }
+})
 
 
 list_todos()
@@ -159,6 +165,7 @@ async function add_todo_db() {
 
 function done_todo() {
     let todo_id = this.parentElement.parentElement.lastChild.innerHTML
+    console.log(todo_id)
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",

@@ -2,6 +2,13 @@ const API_URL = "http://localhost:5000/api"
 
 
 document.getElementById("btn_login").addEventListener("click", check_login_form)
+window.addEventListener("keypress", function(event){
+    if(event.key == "Enter"){
+        event.preventDefault()
+        document.getElementById("btn_login").click()
+        this.document.getElementById("password").focus()
+    }
+})
 
 
 function check_login_form() {
