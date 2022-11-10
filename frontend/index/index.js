@@ -40,6 +40,7 @@ function refresh_todos(todos, switch_value) {
         const table = document.getElementById("todo_table_body")
         const tr_element = document.createElement("tr")
         const td_text_element = document.createElement("td")
+        //const p_element = document.createElement("p")
         const td_done_element = document.createElement("td")
         const td_update_element = document.createElement("td")
 
@@ -76,6 +77,7 @@ function refresh_todos(todos, switch_value) {
         td_hidden.style.display = "none"
         td_hidden.innerHTML = todos[i]["id"]
 
+        //p_element.innerHTML = todos[i]["todo_body"]
         td_text_element.innerHTML = todos[i]["todo_body"]
         done_button.innerHTML = "Done"
         update_button.innerHTML = "Update"
@@ -83,6 +85,7 @@ function refresh_todos(todos, switch_value) {
 
         td_done_element.appendChild(done_button)
         td_update_element.appendChild(update_button)
+        //td_text_element.appendChild(p_element)
         td_text_element.appendChild(document.createElement("br"))
         td_text_element.appendChild(create_date_element)
         td_text_element.appendChild(document.createElement("br"))
@@ -115,6 +118,15 @@ function refresh_todos(todos, switch_value) {
 async function add_todo_db() {
     const todo_body = document.getElementById("todo_body").value
     let request_body = {"todo": todo_body}
+    if(todo_body.length >= 250){
+        return Swal.fire({
+                    title: 'Warning',
+                    text: "Todo shoul less then 250 characters.",
+                    icon: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                })
+    }
 
     await fetch(`${API_URL}/index/add_todo`, {
         method: "POST",
@@ -190,8 +202,9 @@ async function done_todo_endpoint(todo_id) {
 
 
 function update_todo() {
-    let old_body = this.parentElement.parentElement.firstChild.innerHTML
+    let old_body = this.parentElement.parentElement.firstChild.firstChild.textContent
     let todo_id = this.parentElement.parentElement.lastChild.innerHTML
+
     Swal.fire({
         title: "Update",
         input: "text",
