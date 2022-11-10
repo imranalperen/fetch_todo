@@ -33,7 +33,6 @@ class UserCore:
 
     
     def update_access_token(self, form_email, token):
-        print(token["token"])
         session.query(Users)\
             .filter(Users.email == f"{form_email}")\
                 .update({
@@ -43,11 +42,25 @@ class UserCore:
         session.commit()
     
     
-    def get_acctoken_by_mail(self, form_email):
-        user = session.query(Users).filter(Users.email == f"{form_email}").first()
-        return user.access_token
+    # def get_acctoken_by_mail(self, form_email):
+    #     user = session.query(Users).filter(Users.email == f"{form_email}").first()
+    #     return user.access_token
 
 
     def get_user_by_access_token(self, access_token):
         user = session.query(Users).filter(and_(Users.access_token == f"{access_token}", Users.access_token_expire_date > datetime.now())).first()
         return user
+    
+
+    def get_user_by_mail(self, form_email):
+        user = session.query(Users).filter(Users.email == f"{form_email}").first()
+        return user
+
+    def update_password(self, form_email, new_password):
+        new_password = hash_password(new_password, form_email)
+        (
+            session.query(Users)
+            .filter(Users.email == f"{form_email}")
+            .update({"hashed_password": new_password})
+        )
+        session.commit()
