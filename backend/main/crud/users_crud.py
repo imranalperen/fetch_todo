@@ -33,18 +33,15 @@ class UserCore:
 
     
     def update_access_token(self, form_email, token):
-        session.query(Users)\
-            .filter(Users.email == f"{form_email}")\
-                .update({
-                    "access_token": token["token"],
-                    "access_token_expire_date": token["end_date"]
-                })
+        (
+            session.query(Users)
+            .filter(Users.email == f"{form_email}")
+            .update({
+                "access_token": token["token"],
+                "access_token_expire_date": token["end_date"]
+            })
+        )
         session.commit()
-    
-    
-    # def get_acctoken_by_mail(self, form_email):
-    #     user = session.query(Users).filter(Users.email == f"{form_email}").first()
-    #     return user.access_token
 
 
     def get_user_by_access_token(self, access_token):

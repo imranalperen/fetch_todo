@@ -4,6 +4,7 @@ from sqlalchemy_utils import database_exists, create_database
 from backend.localsettings import postgresql
 from sqlalchemy.ext.declarative import declarative_base
 
+
 def get_engine(user, password, host, port, db):
     url = f"postgresql://{user}:{password}@{host}:{port}/{db}"
     if not database_exists(url):

@@ -43,6 +43,24 @@ function refresh_todos(todos, switch_value) {
         const td_done_element = document.createElement("td")
         const td_update_element = document.createElement("td")
 
+        const create_date_element = document.createElement("i")
+        const create_date = todos[i]["create_date"]
+        let d = new Date(create_date);
+        let ye = new Intl.DateTimeFormat('eu', { year: '2-digit' }).format(d);
+        let mo = new Intl.DateTimeFormat('eu', { month: 'numeric' }).format(d);
+        let da = new Intl.DateTimeFormat('eu', { day: 'numeric' }).format(d);
+        create_date_element.innerHTML = `Create date: ${da}/${mo}/${ye}`
+        create_date_element.style.color = "#cccccc"
+        
+        const update_date_element = document.createElement("i")
+        const update_date = todos[i]["update_date"]
+        let date = new Date(update_date);
+        let year = new Intl.DateTimeFormat('eu', { year: '2-digit' }).format(date);
+        let month = new Intl.DateTimeFormat('eu', { month: 'numeric' }).format(date);
+        let day = new Intl.DateTimeFormat('eu', { day: 'numeric' }).format(date);
+        update_date_element.innerHTML = `Last update: ${day}/${month}/${year}`
+        update_date_element.style.color = "#cccccc"
+
         const done_button = document.createElement("button")
         done_button.className = "btn btn-success"
         done_button.id = "btn_done"
@@ -62,8 +80,16 @@ function refresh_todos(todos, switch_value) {
         done_button.innerHTML = "Done"
         update_button.innerHTML = "Update"
 
+
         td_done_element.appendChild(done_button)
         td_update_element.appendChild(update_button)
+        td_text_element.appendChild(document.createElement("br"))
+        td_text_element.appendChild(create_date_element)
+        td_text_element.appendChild(document.createElement("br"))
+        td_text_element.append(update_date_element)
+        if(update_date === null){
+            update_date_element.style.display = "none"
+        }
 
         tr_element.appendChild(td_text_element)
         tr_element.appendChild(td_done_element)

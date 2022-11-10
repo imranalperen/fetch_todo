@@ -15,7 +15,13 @@ class TodoCore:
         rows = session.query(Todos).filter(Todos.user_id == user_id).order_by(desc(Todos.id)).all()
         user_todos = []
         for row in rows:
-            temp = {"id": row.id, "todo_body": row.todo_body, "done": row.done}
+            temp = {
+                "id": row.id,
+                "todo_body": row.todo_body,
+                "done": row.done,
+                "create_date": row.time_created,
+                "update_date": row.time_updated
+            }
             user_todos.append(temp)
         
         return user_todos

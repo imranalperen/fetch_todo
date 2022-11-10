@@ -64,6 +64,7 @@ def forgot_password_endpoint():
     print(email)
     print(new_password)
     UserCore().update_password(email, new_password)
+    
     return jsonify({"response": True})
 
 

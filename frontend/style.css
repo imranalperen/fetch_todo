@@ -63,3 +63,8 @@
   .slider.round:before {
     border-radius: 50%;
   }
+
+.italic_style {
+  font-size: 50px;
+}
+
