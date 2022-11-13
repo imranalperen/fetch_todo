@@ -1,5 +1,5 @@
-from backend.db import session
-from backend.models import Todos, Users
+from app.db import session
+from app.models import Todos
 from sqlalchemy import desc, and_
 import datetime
 

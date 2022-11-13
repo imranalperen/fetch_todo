@@ -50,7 +50,7 @@ function check_login_form() {
             window.localStorage.clear("access_token")
             window.localStorage.setItem("access_token", access_token["token"])
             window.setTimeout(function(){
-                window.location.replace("http://127.0.0.1:5500/frontend/index/index.html")
+                window.location.replace("http://127.0.0.1:5500/index/index.html")
             }, 1100)
         }
         else{

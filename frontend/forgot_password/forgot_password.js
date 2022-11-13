@@ -105,7 +105,7 @@ function post_forgot_form() {
             .then((resp) => resp.json())
             .then((resp_val) => {
                 console.log(resp_val)
-                window.location.replace("http://127.0.0.1:5500/frontend/login/login.html")
+                window.location.replace("http://127.0.0.1:5500/login/login.html")
             })
         }
         else{

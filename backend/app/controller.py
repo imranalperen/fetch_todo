@@ -4,10 +4,10 @@ from flask import(
     jsonify,
     g,
 )
-from backend.main.decorators import login_required
-from backend.main.crud.users_crud import UserCore
-from backend.main.crud.todos_crud import TodoCore
-from backend.main.utils import create_access_token, send_verify_code, create_verify_code
+from app.decorators import login_required
+from app.crud.users_crud import UserCore
+from app.crud.todos_crud import TodoCore
+from app.utils import create_access_token, send_verify_code, create_verify_code
 
 
 main = Blueprint("mian", __name__, url_prefix="/api")

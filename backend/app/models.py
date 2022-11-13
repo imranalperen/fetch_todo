@@ -1,4 +1,4 @@
-from backend.db import Base, engine
+from app.db import Base, engine
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean
 from sqlalchemy.sql import func
 

@@ -2,7 +2,7 @@ import hashlib
 import uuid
 from datetime import timedelta, date
 import requests
-from backend.localsettings import MAILGUN_API_KEY, MAILGIN_DOMAIN, MAILGIN_TEST_MAIL
+from localsettings import MAILGUN_API_KEY, MAILGIN_DOMAIN, MAILGIN_TEST_MAIL
 import random
 
 

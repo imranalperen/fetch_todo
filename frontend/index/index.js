@@ -6,7 +6,7 @@ document.getElementById("switch").addEventListener("click", list_todos)
 document.getElementById("btn_add_todo").addEventListener("click", add_todo_db)
 document.getElementById("btn_logout").addEventListener("click", function () {
     window.localStorage.clear()
-    window.location.replace("http://127.0.0.1:5500/frontend/login/login.html")
+    window.location.replace("http://127.0.0.1:5500/login/login.html")
 })
 window.addEventListener("keypress", function(e){
     if(e.key == "Enter"){
@@ -27,7 +27,10 @@ function list_todos() {
             "Access-Token": access_token
         }
     })
-    .then((response) => response.json())
+    .then((response) => {
+        if (response.status === 401) window.location.replace("http://127.0.0.1:5500/login/login.html");
+        return response.json()
+    })
     .then((data) => {
         if(data["response"] === true){
             refresh_todos(data["todo_list"])

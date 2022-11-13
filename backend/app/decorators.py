@@ -1,6 +1,6 @@
 from flask import request, jsonify, g
 from functools import wraps
-from backend.main.crud.users_crud import UserCore
+from app.crud.users_crud import UserCore
 
 
 def login_required(f):

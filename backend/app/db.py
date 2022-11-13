@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import database_exists, create_database
-from backend.localsettings import postgresql
+from localsettings import postgresql
 from sqlalchemy.ext.declarative import declarative_base
 
 

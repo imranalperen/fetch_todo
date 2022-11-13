@@ -97,7 +97,7 @@ function post_signup_form() {
             })
             .then((redirect_login) => {
                 if (redirect_login){
-                    window.location.replace("http://127.0.0.1:5500/frontend/login/login.html")
+                    window.location.replace("http://127.0.0.1:5500/login/login.html")
                 }
             })
         }

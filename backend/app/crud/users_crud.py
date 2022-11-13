@@ -1,6 +1,6 @@
-from backend.db import session
-from backend.models import Users
-from backend.main.utils import hash_password
+from app.db import session
+from app.models import Users
+from app.utils import hash_password
 from sqlalchemy import and_
 from datetime import datetime
 
