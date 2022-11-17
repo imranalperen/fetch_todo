@@ -23,6 +23,7 @@ function check_sign_up_form() {
             icon: "warning",
         })
     }
+
     else if(password !== verify_password){
         swal.fire({
             position: "bottom-end",
@@ -33,20 +34,51 @@ function check_sign_up_form() {
         })
         document.getElementById("verify_password").value = ""
     }
+
     else{
-        if(validate_email(email) === true){
-            post_signup_form()
-        }
-        else{
-            swal.fire({
-                position: "bottom-end",
-                icon: "error",
-                title: "Invalid email adress.",
-                showConfirmButton: false,
-                timer: 1500
-            })
-        }
+        validation(email, password)
     }
+}
+
+
+
+function validation (email, password) {
+    if (validate_email(email) === false){
+        document.getElementById("email").value = ""
+        swal.fire({
+            position: "bottom-end",
+            icon: "error",
+            title: "Invalid email adress.",
+            showConfirmButton: false,
+            timer: 1500
+        })
+        return false
+    }
+    
+    else if (validate_password(password) === false){
+        document.getElementById("password").value = ""
+        document.getElementById("verify_password").value = ""
+        swal.fire({
+            position: "bottom-end",
+            icon: "error",
+            title: "password shuld be 4-12 character",
+            showConfirmButton: false,
+            timer: 1500
+        })
+        return false
+    }
+    else{
+            post_signup_form()
+    }
+}
+
+
+
+function validate_password(password){
+    if(password.length >= 12 || password.length < 4){
+        return false
+    }
+    return true
 }
 
 

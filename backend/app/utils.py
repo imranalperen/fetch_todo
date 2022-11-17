@@ -2,8 +2,10 @@ import hashlib
 import uuid
 from datetime import timedelta, date
 import requests
-from localsettings import MAILGUN_API_KEY, MAILGIN_DOMAIN, MAILGIN_TEST_MAIL
+from localsettings import MAILJET_API_KEY, MAILJET_SECRET_KEY
 import random
+import os
+from mailjet_rest import Client
 
 
 def hash_password(string, salt):#string-psw salt-email
@@ -28,10 +30,28 @@ def create_verify_code():
 
 
 def send_verify_code(user_email, verify_code):
-	return requests.post(
-		f"https://api.mailgun.net/v3/{MAILGIN_DOMAIN}/messages",
-		auth=("api", f"{MAILGUN_API_KEY}"),
-		data={"from": f"{MAILGIN_TEST_MAIL}",
-			"to": [f"{user_email}"],
-			"subject": "Toddo Reset Password",
-			"text": f"{verify_code}"})
+    api_key = MAILJET_API_KEY
+    api_secret = MAILJET_SECRET_KEY
+    mailjet = Client(auth=(api_key, api_secret), version='v3.1')
+    data = {
+        'Messages': [
+            {
+                "From": {
+                    "Email": "toddoregister@protonmail.com",
+                    "Name": "toddo registration"
+                },
+                "To": [
+                    {
+                        "Email": f"{user_email}"
+                    }
+                ],
+                "Subject": "Reset Password",
+                "TextPart": "burasi text part",
+                "HTMLPart": f"{verify_code}",
+                "CustomId": "AppGettingStartedTest"
+            }
+        ]
+    }
+    result = mailjet.send.create(data=data)
+    print(result.status_code)
+    print(result.json())
