@@ -1,10 +1,8 @@
 import hashlib
 import uuid
 from datetime import timedelta, date
-import requests
 from localsettings import MAILJET_API_KEY, MAILJET_SECRET_KEY
 import random
-import os
 from mailjet_rest import Client
 
 
