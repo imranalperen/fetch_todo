@@ -5,11 +5,10 @@ document.getElementById("btn_send_mail").addEventListener("click", send_mail)
 const backend_verify_code = {}
 
 function send_mail() {
-    //we need instantly block otherwise process wil take less then 1 sec and it is enough to click more then 1 time
-    document.getElementById("email").disabled = true
-    document.getElementById("btn_send_mail").disabled = true
     const email = document.getElementById("email").value
     if(email !== ""){
+        document.getElementById("email").disabled = true
+        document.getElementById("btn_send_mail").disabled = true
         fetch(`${API_URL}/forgot_password`, {
             method: "POST",
             headers: {
@@ -25,23 +24,20 @@ function send_mail() {
                 create_verify_inputs()
             }
             else{
-                document.getElementById("email").disabled = false
-                document.getElementById("btn_send_mail").disabled = false
-                document.getElementById("email").value = ""
-                swal.fire({
-                    position: "bottom-end",
-                    icon: "error",
-                    title: "Invalid email adress.",
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+                console.log("dis elseswede")
+                invalid_email()
             }
         })
+    }
+    else{
+        console.log("ic elsede")
+        invalid_email()
     }
 }
 
 
 function create_verify_inputs() {
+    //creating DOM
     const parent = document.getElementById("new_psw")
     const notice = document.createElement("h4")
     notice.innerHTML = "Verify code sended your email adress..."
@@ -109,7 +105,6 @@ function post_forgot_form() {
             })
         }
         else{
-            console.log("passwordlar eşleşmedi")
             document.getElementById("verify_password").value = ""
             swal.fire({
                 position: "bottom-end",
@@ -121,7 +116,6 @@ function post_forgot_form() {
         }
     }
     else{
-        console.log("hatalı kod")
         document.getElementById("verify_code_input").value = ""
         swal.fire({
             position: "bottom-end",
@@ -131,4 +125,18 @@ function post_forgot_form() {
             timer: 1500
         })
     }
+}
+
+
+function invalid_email() {
+    document.getElementById("email").disabled = false
+    document.getElementById("btn_send_mail").disabled = false
+    document.getElementById("email").value = ""
+    swal.fire({
+        position: "bottom-end",
+        icon: "error",
+        title: "Invalid email adress.",
+        showConfirmButton: false,
+        timer: 1500
+    })
 }
