@@ -66,7 +66,7 @@ function create_verify_inputs() {
     const verify_password_label = document.createElement("label")
     verify_password_label.innerHTML = "Verfiy Password"
     const ok_btn = document.createElement("button")
-    ok_btn.innerHTML = "Change Password"
+    ok_btn.innerHTML = "Reset Password"
     ok_btn.className = "btn btn-success"
     ok_btn.addEventListener("click", post_forgot_form)
     const br = document.createElement("br")
