@@ -1,5 +1,5 @@
 .set-margin{
-    margin-top: 200px;
+    margin-top: 80px;
 }
 
 .switch {
@@ -68,3 +68,8 @@
   font-size: 50px;
 }
 
+.center {
+  display: flex;
+  margin-left: 215px;
+  margin-top: 50px;
+}
