@@ -1,5 +1,5 @@
 ## Abaut Project
-This is my first REST API project. I used flask for api and vanilla js for frontend. My aim of this project learning and understanding server-client relationship, how to work a real webapp product, learning token based user authentication method and reinforce my ORM, js, flask skills.
+This is my first REST API project. I used flask for api and vanilla js for frontend. My aim of this project learning and understanding server-client relationship, how to work a real webapp product, learning token based user authentication method and reinforce my ORM, js, python-flask skills.
 
 #
 <img src="https://i.ibb.co/WFmvKsZ/asd.jpg" alt="drawing" width="550"/>
