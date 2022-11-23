@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api"
+const API_URL = "http://127.0.0.1:5000/api"
 
 
 document.getElementById("btn_sign_up").addEventListener("click", check_sign_up_form)
